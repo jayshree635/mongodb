@@ -12,6 +12,7 @@ const UserRegistration = async (req, res) => {
         password: 'required|max:15|min:8',
         address: 'required|string'
     })
+    
     if (validation.fails()) {
         firstMessage = Object.keys(validation.errors.all())[0];
         return RESPONSE.error(res, validation.errors.first(firstMessage))
