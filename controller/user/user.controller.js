@@ -14,7 +14,7 @@ const UserRegistration = async (req, res) => {
     })
     
     if (validation.fails()) { 
-        
+
         firstMessage = Object.keys(validation.errors.all())[0];
         return RESPONSE.error(res, validation.errors.first(firstMessage))
     }
@@ -36,15 +36,17 @@ const UserRegistration = async (req, res) => {
     }
 }
 
-const getUserProfile = async (req, res) => {
+const getAllUserProfile = async (req, res) => {
     try {
-
+         const findUser = await User.find({deleted_At : null},'-password')
+        
+        return RESPONSE.success(res,1010,findUser)
     } catch (error) {
-
+        return RESPONSE.error(res,9999)
     }
 }
 
 module.exports = {
     UserRegistration,
-    getUserProfile
+    getAllUserProfile
 }
