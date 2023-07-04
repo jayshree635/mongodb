@@ -46,7 +46,20 @@ const getAllUserProfile = async (req, res) => {
     }
 }
 
+const getUserProfile = async (req,res) => {
+    try {
+         const id = req.query._id;
+
+         const findUser = await User.findOne({_id :id,deleted_At : null},'-password')
+         return RESPONSE.success(res,1010,findUser)
+    } catch (error) {
+        console.log(error);
+        return RESPONSE.error(res,9999)
+    }
+}
+
 module.exports = {
     UserRegistration,
-    getAllUserProfile
+    getAllUserProfile,
+    getUserProfile
 }

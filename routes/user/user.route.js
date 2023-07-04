@@ -6,4 +6,6 @@ route.post('/user-registration',User.UserRegistration)
 
 route.get('/get-All-User-Profile',User.getAllUserProfile)
 
+route.get('/get-User-Profile',User.getUserProfile)
+
 module.exports = route
