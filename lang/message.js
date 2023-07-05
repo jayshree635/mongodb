@@ -12,6 +12,7 @@ const MESSAGES = {
     '1012': 'Password does not match.',
     '1013': 'User Account deleted successfully.',
     '1014' : 'you are not user',
+    '1015' : 'current password is incorrect',
 
     // categories controller
     '1101': 'Categories create successfully!',
