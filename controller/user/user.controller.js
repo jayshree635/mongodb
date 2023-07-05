@@ -65,24 +65,24 @@ const getUserProfile = async (req, res) => {
 const updateUserProfile = async (req, res) => {
     try {
         const id = req.query._id
-        const { userName, address, current_password, new_password} = req.body;
+        const { userName, address, current_password, new_password } = req.body;
         let object = {
             userName,
             address
         }
-       if (new_password) {
-           let validation = new Validator({
-             current_password : 'required',
-             new_password : 'required|max:15|min:8'
-           })
-           if (validation.fails()) {
-               firstMessage = Object.keys(validation.errors.all())[0];
-               return RESPONSE.error(res,validation.errors.first(firstMessage))
-           }
-           object.password = new_password;
-       }
+        if (new_password) {
+            let validation = new Validator({
+                current_password: 'required',
+                new_password: 'required|max:15|min:8'
+            })
+            if (validation.fails()) {
+                firstMessage = Object.keys(validation.errors.all())[0];
+                return RESPONSE.error(res, validation.errors.first(firstMessage))
+            }
+            object.password = new_password;
+        }
 
-       await User.findByIdAndUpdate({_id : id},object)
+        await User.findByIdAndUpdate({ _id: id }, object)
         return RESPONSE.success(res, 1011);
     } catch (error) {
         console.error(error);
@@ -91,10 +91,32 @@ const updateUserProfile = async (req, res) => {
 };
 
 
+const deleteUserById = async (req, res) => {
+    try {
+        const id = req.query._id;
+
+        const findUser = await User.findOne({ _id: id })
+
+        if (!findUser) {
+            return RESPONSE.error(res, 1007)
+        }
+
+        await User.deleteOne({_id :findUser.id})
+
+        await userSession.deleteMany({ user_id: id });
+
+        return RESPONSE.success(res, 1013)
+    } catch (error) {
+        return RESPONSE.error(res, 9999)
+    }
+}
+
+
 
 module.exports = {
     UserRegistration,
     getAllUserProfile,
     getUserProfile,
-    updateUserProfile
+    updateUserProfile,
+    deleteUserById
 }
