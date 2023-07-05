@@ -10,4 +10,6 @@ route.get('/get-User-Profile',User.getUserProfile);
 
 route.patch('/updateUserProfile',User.updateUserProfile)
 
+route.delete('/deleteUserById',User.deleteUserById)
+
 module.exports = route
