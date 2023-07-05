@@ -36,6 +36,7 @@ const MESSAGES = {
     //super admin controller
     
     '1403': 'Get admin successfully!',
+    '1404': 'Update admin successfully!',
      
     
 

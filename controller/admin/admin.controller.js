@@ -59,7 +59,7 @@ const getAdminById = async (req, res) => {
     try {
         const id = req.query._id;
 
-        const findAdmin = await Admin.find({ _id: id },'-password');
+        const findAdmin = await Admin.find({ _id: id }, '-password');
 
         return RESPONSE.success(res, 1403, findAdmin)
 
@@ -68,8 +68,35 @@ const getAdminById = async (req, res) => {
     }
 }
 
+
+const updateAdminProfile = async (req, res) => {
+    try {
+        const { name, current_password, new_password } = req.body;
+        let object = {
+            name
+        }
+        if (new_password) {
+            let validation = new Validator(req.body, {
+                current_password: 'required',
+                new_password: 'required|max:15|min:8'
+            })
+            if (validation.fails()) {
+                firstMessage = Object.keys(validation.errors.all())[0];
+                return RESPONSE.error(res, validation.errors.first(firstMessage))
+            }
+            object.password = new_password
+        }
+  
+       await Admin.findByIdAndUpdate({_id : id},object)
+     return RESPONSE.success(res,1404)
+
+    } catch (error) {
+
+    }
+}
 module.exports = {
     adminSignUp,
     getAllAdmin,
-    getAdminById
+    getAdminById,
+    updateAdminProfile
 }

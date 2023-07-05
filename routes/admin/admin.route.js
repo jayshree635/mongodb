@@ -10,4 +10,6 @@ const admin = require('../../controller/admin/admin.controller');
 
  route.get('/get-Admin-By-Id',admin.getAdminById)
 
+ route.patch('/updateAdminProfile',admin.updateAdminProfile)
+
 module.exports = route

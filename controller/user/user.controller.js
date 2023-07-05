@@ -81,19 +81,7 @@ const updateUserProfile = async (req, res) => {
             }
             object.password = new_password;
         }
-        if (new_password) {
-            let validation = new Validator({
-                current_password: 'required',
-                new_password: 'required|max:15|min:8'
-            })
-            if (validation.fails()) {
-                firstMessage = Object.keys(validation.errors.all())[0];
-                return RESPONSE.error(res, validation.errors.first(firstMessage))
-            }
-            object.password = new_password;
-        }
 
-        await User.findByIdAndUpdate({ _id: id }, object)
         await User.findByIdAndUpdate({ _id: id }, object)
         return RESPONSE.success(res, 1011);
     } catch (error) {
@@ -124,12 +112,10 @@ const deleteUserById = async (req, res) => {
 }
 
 
-
 module.exports = {
     UserRegistration,
     getAllUserProfile,
     getUserProfile,
     updateUserProfile,
     deleteUserById
-
 }
