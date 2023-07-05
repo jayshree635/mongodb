@@ -19,8 +19,10 @@ app.use(cors())
 config.dbConnection()
 
 //..........routes
-const route = require('./routes/user/user.route')
+const route = require('./routes/user/user.route');
+const admin = require('./routes/admin/admin.route')
 app.use('/api/v1/',route)
+app.use('/api/v1/',admin)
 
 
 //.................create Server..................

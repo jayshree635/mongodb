@@ -1,5 +1,4 @@
 const mongoose = require('mongoose')
-const config = require('../../config/config')
 
 const userSessionSchema = mongoose.Schema({
     user_id : {
