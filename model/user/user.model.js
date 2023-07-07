@@ -23,6 +23,11 @@ const userSchema = mongoose.Schema({
         required : true,
         maxlenght : 50
     },
+    post :[{
+        //type : String
+        type : mongoose.Schema.Types.ObjectId,
+        ref : 'posts'
+        }],
     deleted_At :{
         type : Date,
         required : false

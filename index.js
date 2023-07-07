@@ -21,9 +21,12 @@ config.dbConnection()
 //..........routes
 const route = require('./routes/user/user.route');
 const admin = require('./routes/admin/admin.route')
+const comment = require('./routes/comment/comment.route')
+const postData = require('./routes/post/post.route')
 app.use('/api/v1/',route)
 app.use('/api/v1/',admin)
-
+app.use('/api/v1/',comment)
+app.use('/api/v1/',postData)
 
 //.................create Server..................
 let server 
