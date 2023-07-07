@@ -3,7 +3,6 @@ const fs = require("fs");
 const path = require('path');
 
 function uploadFile(fileObjArray, pathFolder = 'images', fileFieldName = 'images') {
-    //WIP  : need to identify field name from array object : https://stackoverflow.com/questions/5181493/how-to-find-a-value-in-an-array-of-objects-in-javascript
     const dir = './public/' + pathFolder
     if (!fs.existsSync(dir)) {
         fs.mkdirSync(dir, { recursive: true });

@@ -22,22 +22,26 @@ const MESSAGES = {
     
   
     // product controller
-    '1301': 'product create successfully!',
-    '1302': 'product get successfully!',
+    '1301': 'post create successfully!',
+    '1302': 'post get successfully!',
     '1303': 'You are not admin!',
-    '1304': 'product delete successfully',
-    '1305': 'product uploded successfully',
-    '1306': 'Please select product file..',
-    '1307': 'product not found',
-    '1308': 'product update successfully',
+    '1304': 'post delete successfully',
+    '1305': 'post uploded successfully',
+    '1306': 'Please select post file..',
+    '1307': 'post not found',
+    '1308': 'post update successfully',
     '1309': 'You are not active admin!',
-    '1310' : 'Add product reviews successfully',
+    '1310' : 'Add post reviews successfully',
 
     //super admin controller
     
     '1403': 'Get admin successfully!',
+    '1404': 'Update admin successfully!',
+    '1405': 'delete admin profile successfully!',
+    '1406': 'you are not Admin',
      
-    
+    //comment 
+    '1501' : 'create comment successfully',
 
     // Common
     '9000': 'Please Enter valid Details',

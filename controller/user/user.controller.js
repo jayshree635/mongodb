@@ -5,14 +5,16 @@ const Validator = require('validatorjs')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 
+
+//...........User registration API............
 const UserRegistration = async (req, res) => {
     let validation = new Validator(req.body, {
         userName: 'required|string|max:50',
         email: 'required|email',
         password: 'required|max:15|min:8',
-        address: 'required|string'
+        address: 'required|string',
+        post: 'required'
     })
-
     if (validation.fails()) {
 
         firstMessage = Object.keys(validation.errors.all())[0];
@@ -20,12 +22,12 @@ const UserRegistration = async (req, res) => {
     }
 
     try {
-        const { userName, email, password, address } = req.body;
+        const { userName, email, password, address, post } = req.body;
         const ExistEmail = await User.findOne({ email: email })
         if (ExistEmail) {
             return RESPONSE.error(res, 1009)
         }
-        const user = await User.create({ userName, email, password, address })
+        const user = await User.create({ userName, email, password, address, post })
 
         const token = jwt.sign({ email, userName, user_id: user._id }, config.jwt_secret_key, { expiresIn: '1h' });
 
@@ -39,6 +41,7 @@ const UserRegistration = async (req, res) => {
     }
 }
 
+//...................get All User Profile........................
 const getAllUserProfile = async (req, res) => {
     try {
         const findUser = await User.find({ deleted_At: null }, '-password')
@@ -49,6 +52,7 @@ const getAllUserProfile = async (req, res) => {
     }
 }
 
+//.....................Get User Profile By Id.......
 const getUserProfile = async (req, res) => {
     try {
         const id = req.query._id;
@@ -62,6 +66,7 @@ const getUserProfile = async (req, res) => {
 }
 
 
+//...................Update User Profile..............
 const updateUserProfile = async (req, res) => {
     try {
         const id = req.query._id
@@ -81,19 +86,6 @@ const updateUserProfile = async (req, res) => {
             }
             object.password = new_password;
         }
-        if (new_password) {
-            let validation = new Validator({
-                current_password: 'required',
-                new_password: 'required|max:15|min:8'
-            })
-            if (validation.fails()) {
-                firstMessage = Object.keys(validation.errors.all())[0];
-                return RESPONSE.error(res, validation.errors.first(firstMessage))
-            }
-            object.password = new_password;
-        }
-
-        await User.findByIdAndUpdate({ _id: id }, object)
         await User.findByIdAndUpdate({ _id: id }, object)
         return RESPONSE.success(res, 1011);
     } catch (error) {
@@ -102,19 +94,17 @@ const updateUserProfile = async (req, res) => {
     }
 };
 
-
+//......................delete User By Id....................
 const deleteUserById = async (req, res) => {
     try {
         const id = req.query._id;
-
         const findUser = await User.findOne({ _id: id })
 
         if (!findUser) {
             return RESPONSE.error(res, 1007)
         }
 
-        await User.deleteOne({_id :findUser.id})
-
+        await User.deleteOne({ _id: findUser.id })
         await userSession.deleteMany({ user_id: id });
 
         return RESPONSE.success(res, 1013)
@@ -124,12 +114,10 @@ const deleteUserById = async (req, res) => {
 }
 
 
-
 module.exports = {
     UserRegistration,
     getAllUserProfile,
     getUserProfile,
     updateUserProfile,
     deleteUserById
-
 }
