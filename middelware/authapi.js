@@ -53,48 +53,48 @@ const authAdmin = async (req, res, next) => {
 
 //.........................User auth...............................//
 const authUser = async (req, res, next) => {
-    const headerToken = req.headers.authorization ? req.headers.authorization : null;
+  const headerToken = req.headers.authorization ? req.headers.authorization : null;
 
-    try {
-      const isAuth = await UserSession.findOne({ token: headerToken });
+  try {
+    const isAuth = await UserSession.findOne({ token: headerToken });
 
-      if (!isAuth || !isAuth.user_id) {
-        return res.status(401).json({
-          success: false,
-          message: 'Unauthorized User',
-        });
-      }
-
-      if (isAuth.expire_timestamp < moment().unix()) {
-        await UserSession.deleteOne({ token: headerToken });
-        return res.status(401).json({
-          success: false,
-          message: 'Session expired',
-        });
-      }
-
-      await UserSession.updateOne({ expire_timestamp: moment().unix() }, { token: headerToken });
-      const user = await User.findOne({ _id: isAuth.user_id }, '_id');
-
-      if (!user) {
-        return res.status(401).json({
-          success: false,
-          message: 'User not found',
-        });
-      }
-
-      const userJson = user.toJSON();
-      userJson.role = 'user';
-      req.user = userJson;
-      next();
-    } catch (error) {
-      console.log(error);
-      return res.status(500).json({
+    if (!isAuth || !isAuth.user_id) {
+      return res.status(401).json({
         success: false,
-        message: 'Internal server error',
+        message: 'Unauthorized User',
       });
     }
-  };
+
+    if (isAuth.expire_timestamp < moment().unix()) {
+      await UserSession.deleteOne({ token: headerToken });
+      return res.status(401).json({
+        success: false,
+        message: 'Session expired',
+      });
+    }
+
+    await UserSession.updateOne({ expire_timestamp: moment().unix() }, { token: headerToken });
+    const user = await User.findOne({ _id: isAuth.user_id }, '_id');
+
+    if (!user) {
+      return res.status(401).json({
+        success: false,
+        message: 'User not found',
+      });
+    }
+
+    const userJson = user.toJSON();
+    userJson.role = 'user';
+    req.user = userJson;
+    next();
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      success: false,
+      message: 'Internal server error',
+    });
+  }
+};
 
 module.exports = {
   authAdmin,

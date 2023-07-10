@@ -45,9 +45,9 @@ const getAllAdmin = async (req, res) => {
     try {
         const userAuth = req.user;
         if (!userAuth) {
-            return RESPONSE.error(res,1406)
+            return RESPONSE.error(res, 1406)
         }
-        
+
         const findData = await Admin.find()
         return RESPONSE.success(res, 1403, findData)
     } catch (error) {
@@ -60,7 +60,7 @@ const getAdminById = async (req, res) => {
     try {
         const userAuth = req.user;
         if (!userAuth) {
-            return RESPONSE.error(res,1406)
+            return RESPONSE.error(res, 1406)
         }
 
         const id = req.query._id;
@@ -79,7 +79,7 @@ const updateAdminProfile = async (req, res) => {
     try {
         const userAuth = req.user;
         if (!userAuth) {
-            return RESPONSE.error(res,1406)
+            return RESPONSE.error(res, 1406)
         }
 
         const id = req.query._id
@@ -114,7 +114,7 @@ const deleteAdminById = async (req, res) => {
     try {
         const userAuth = req.user;
         if (!userAuth) {
-            return RESPONSE.error(res,1406)
+            return RESPONSE.error(res, 1406)
         }
 
         const id = req.query._id;

@@ -24,7 +24,6 @@ const userSchema = mongoose.Schema({
         maxlenght : 50
     },
     post :[{
-        //type : String
         type : mongoose.Schema.Types.ObjectId,
         ref : 'posts'
         }],

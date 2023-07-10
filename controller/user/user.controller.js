@@ -4,6 +4,7 @@ const userSession = require('../../model/user/userSession.model')
 const Validator = require('validatorjs')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
+const post = require('../../model/post/post.model')
 
 
 //...........User registration API............
@@ -65,6 +66,29 @@ const getUserProfile = async (req, res) => {
     }
 }
 
+//.........................get user with post...............
+const getUserWithPost = async (req, res) => {
+    try {
+        const authUser = req.user;
+        const id = req.query._id;
+
+        if (!authUser) {
+            return RESPONSE.error(res, 1014)
+        }
+
+        const findData = await User.findOne({ _id: id }).populate()
+        if (!findData) {
+            return RESPONSE.error(res, 1307)
+        }
+        return RESPONSE.success(res, 1010, findData)
+    } catch (error) {
+        console.log(error);
+        return RESPONSE.error(res, 9999)
+    }
+}
+
+
+
 
 //...................Update User Profile..............
 const updateUserProfile = async (req, res) => {
@@ -118,6 +142,7 @@ module.exports = {
     UserRegistration,
     getAllUserProfile,
     getUserProfile,
+    getUserWithPost,
     updateUserProfile,
     deleteUserById
 }
